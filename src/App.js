@@ -22,8 +22,37 @@ function App() {
   const [gameState, setGameState] = useState(stages[0].name);
   const [words] = useState(wordList);
 
+  const [pickedWord, setPickedWord] = useState("");
+  const [pickedCategory, setPickedCategory] = useState("");
+  const [letters, setLetters] = useState([]);
+
+  const pickWordAndCategory = () =>{
+    //Pick a random Category
+    const categories = Object.keys(words)
+    const category = categories[Math.floor(Math.random() * Object.keys(categories).length)]
+
+    //Pick a random Word
+    const word = words[category][Math.floor(Math.random() * words[category].length)]
+   
+    return {word, category}
+  }
+
+
   //Start the secret words game
   const startGame = () =>{
+    //Pick word and pick category
+    const {word, category} = pickWordAndCategory();   
+
+    //Create a array with letters
+    let wordLetters = word.split("");
+    wordLetters = wordLetters.map((l) => l.toLowerCase());
+
+    //Fill states
+    setPickedWord(word);
+    setPickedCategory(category);
+    setLetters(wordLetters);
+   
+
     setGameState(stages[1].name);
   }
 
@@ -36,8 +65,6 @@ function App() {
   const retry = () =>{
     setGameState(stages[0].name);
   }
-
-  console.log(words)
 
   return (
     <div className="App">
